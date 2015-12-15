@@ -1,0 +1,2 @@
+# baseBot
+Modular IRC bot
