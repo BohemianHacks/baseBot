@@ -48,23 +48,15 @@ class baseBot(irc.IRCClient):
             acc = msg.lower().split()
             for cmd in self.cmdQueue:
                 try:
-                    heat = 0
                     if acc[0] == cmd['user']:
                         if acc[2] == "3":
                             if cmd['cmd'] in self.commands:
                                 if cmd['type'] == 'admin':
                                     if cmd['user'] in self.vars['admins']:
-                                        heat = self.commands[cmd['cmd']][0](self, cmd)
+                                        self.commands[cmd['cmd']][0](self, cmd)
                                 else:
-                                    heat = self.commands[cmd['cmd']][0](self, cmd)
+                                    self.commands[cmd['cmd']][0](self, cmd)
                                     
-                    #add heat to heatmap to prevent spam
-                    if not heat == 0:
-                        if host in self.heatmap:
-                            self.heatmap[host] = self.heatmap[host] + heat
-                        else:
-                            self.heatmap[host] = heat
-                            
                     self.cmdQueue.remove(cmd)
                 except Exception as e:
                     self.msg(cmd['chan'], cmd['nick'] + ', something went wrong.')
@@ -169,12 +161,7 @@ class baseBot(irc.IRCClient):
                     self.msg("NickServ", "acc " + user)
                     return
                 else:
-                    heat = self.commands[command][0](self, cmd)
-                    #add heat to heatmap to prevent spam
-                    if host in self.heatmap:
-                        self.heatmap[host] = self.heatmap[host] + heat
-                    else:
-                        self.heatmap[host] = heat
+                    self.commands[command][0](self, cmd)
             except Exception as e:
                 self.msg(chan, nick + ', something went wrong.')
                 self.logger.log('error', self.nickname+':'+nick+':Error running command:'+msg+':'+str(e))
