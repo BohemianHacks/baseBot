@@ -1,0 +1,1 @@
+{"logLocation": "logs/", "bots": [{"channels": ["#yaub"], "modules": ["basic"], "server": "irc.freenode.net", "ignore": ["[2]"], "nick": "Yaub", "admins": ["bohemianhacks"], "heatmap": {}, "password": "", "port": 6667}]}
