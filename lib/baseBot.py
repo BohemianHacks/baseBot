@@ -21,8 +21,8 @@ class baseBot(irc.IRCClient):
         self.channels = None
         self.nickname = None
         self.password = None
-        self.heatmap = None
         self.logger = None
+        self.heatmap = {}
         self.cmdQueue = []
         self.commands = {}
         self.modules = []
@@ -48,15 +48,24 @@ class baseBot(irc.IRCClient):
             acc = msg.lower().split()
             for cmd in self.cmdQueue:
                 try:
+                    heat = 0
                     if acc[0] == cmd['user']:
                         if acc[2] == "3":
                             if cmd['cmd'] in self.commands:
                                 if cmd['type'] == 'admin':
                                     if cmd['user'] in self.vars['admins']:
-                                        self.commands[cmd['cmd']][0](self, cmd)
+                                        heat = self.commands[cmd['cmd']][0](self, cmd)
                                 else:
-                                    self.commands[cmd['cmd']][0](self, cmd)
-                                self.cmdQueue.remove(cmd)
+                                    heat = self.commands[cmd['cmd']][0](self, cmd)
+                                    
+                    #add heat to heatmap to prevent spam
+                    if not heat == 0:
+                        if host in self.heatmap:
+                            self.heatmap[host] = self.heatmap[host] + heat
+                        else:
+                            self.heatmap[host] = heat
+                            
+                    self.cmdQueue.remove(cmd)
                 except Exception as e:
                     self.msg(cmd['chan'], cmd['nick'] + ', something went wrong.')
                     self.logger.log("error", self.nickname+": Error in authed command:" + str(cmd) + ':' + str(e))
@@ -160,7 +169,12 @@ class baseBot(irc.IRCClient):
                     self.msg("NickServ", "acc " + user)
                     return
                 else:
-                    self.commands[command][0](self, cmd)
+                    heat = self.commands[command][0](self, cmd)
+                    #add heat to heatmap to prevent spam
+                    if host in self.heatmap:
+                        self.heatmap[host] = self.heatmap[host] + heat
+                    else:
+                        self.heatmap[host] = heat
             except Exception as e:
                 self.msg(chan, nick + ', something went wrong.')
                 self.logger.log('error', self.nickname+':'+nick+':Error running command:'+msg+':'+str(e))
@@ -173,7 +187,6 @@ class baseBotFactory(protocol.ClientFactory):
         self.nickname = b['nick']
         self.password = b['password']
         self.admins = b['admins']
-        self.heatmap = b['heatmap']
         self.modules = b['modules']
         self.ignore = b['ignore']
         self.logger = masterLogger
@@ -186,7 +199,6 @@ class baseBotFactory(protocol.ClientFactory):
         p.nickname = self.nickname
         p.password = self.password
         p.logger = self.logger
-        p.heatmap = self.heatmap
         p.modules = self.modules
         p.lineRate = 0.5
         p.reactor = reactor
