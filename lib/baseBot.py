@@ -188,7 +188,7 @@ class baseBotFactory(protocol.ClientFactory):
         p.password = self.b['password']
         p.modules = self.b['modules']
         p.ignore = self.b['ignore']
-        p.cmdSymbol = self.b['delimiter']
+        p.cmdSymbol = self.b['cmdSymbol']
         p.logger = self.logger
         p.lineRate = 0.5
         p.reactor = reactor
