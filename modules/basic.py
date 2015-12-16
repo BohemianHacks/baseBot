@@ -15,6 +15,7 @@ def msg(bot, cmd):
     for ii in range(len(args)-3):
         msg = msg + ' ' + args[ii+3]
     bot.msg(args[1], msg)
+    bot.addHeat(cmd['host'], 1)
     
 commands['msg'] = (msg, '.msg <nick/channel> <message>', 'admin')
 
@@ -25,8 +26,10 @@ def listMods(bot, cmd):
         if '__' not in mod and mod.endswith('.py'):
             if mod.strip('.py') in bot.modules:
                 bot.msg(nick, '[*]'+mod.strip('.py'))
+                bot.addHeat(cmd['host'], 1)
             else:
                 bot.msg(nick, '[ ]'+mod.strip('.py'))
+                bot.addHeat(cmd['host'], 1)
                 
 commands['list'] = (listMods, '.list', 'public')        
 
@@ -34,8 +37,10 @@ def get(bot, cmd):
     args = cmd['args']
     if args[1] in bot.vars:
         bot.msg(cmd['chan'], str(bot.vars[args[1]]))
+        bot.addHeat(cmd['host'], 1)
     else:
         bot.msg(cmd['chan'], "Variable '"+args[1]+"' not found.")
+        bot.addHeat(cmd['host'], 1)
         
 commands['get'] = (get, '.get <variable>', 'admin')
 
@@ -47,6 +52,7 @@ def setVar(bot, cmd):
             if type(bot.vars[args[1]]) == type([]) and '|' not in args[2] and '#' not in args[2]:
                 bot.vars[args[1]].append(args[2])
                 bot.msg(cmd['chan'], "Value added.")
+                bot.addHeat(cmd['host'], 1)
                 return
             
     if len(args) > 2:
@@ -60,9 +66,11 @@ def setVar(bot, cmd):
                 val = val + ' ' + args[ii+3]
         bot.vars[args[1]] = val
         bot.msg(cmd['chan'], "Value set.")
+        bot.addHeat(cmd['host'], 1)
     else:
         del bot.vars[args[1]]
-        bot.msg(cmd['chan'], "Value erased.") 
+        bot.msg(cmd['chan'], "Value erased.")
+        bot.addHeat(cmd['host'], 1)
         
 commands['set'] = (setVar, '.set <variable> <value>', 'admin')
 
@@ -83,8 +91,10 @@ def reloadMod(bot, cmd):
     chan = cmd['chan']
     if bot.unloadModule(args[1]) and bot.loadModule(args[1]):
         bot.msg(chan, 'reloaded: ' + args[1])
+        bot.addHeat(cmd['host'], 1)
     else:
         bot.msg(chan, "Could not reload '"+args[1]+"'.")
+        bot.addHeat(cmd['host'], 1)
         
 commands['reload'] = (reloadMod, '.reload <module>', 'admin')        
 
@@ -102,8 +112,10 @@ def load(bot, cmd):
     chan = cmd['chan']
     if bot.loadModule(args[1]):
         bot.msg(chan, 'loaded: ' + args[1])
+        bot.addHeat(cmd['host'], 1)
     else:
         bot.msg(chan, "Could not load '"+args[1]+"'.")
+        bot.addHeat(cmd['host'], 1)
 
 commands['load'] = (load, '.load <module>', 'admin')        
         
@@ -111,8 +123,10 @@ def unload(bot, cmd):
     args = cmd['args']
     if bot.unloadModule(args[1]):
         bot.msg(cmd['chan'], "unloaded: " + args[1])
+        bot.addHeat(cmd['host'], 1)
     else:
         bot.msg(cmd['chan'], "Module '" + args[1] + "' not found.")
+        bot.addHeat(cmd['host'], 1)
                  
 commands['unload'] = (unload, '.unload <module>', 'admin')
         
@@ -122,12 +136,15 @@ def help(bot, cmd):
     if len(args) > 1:
         if args[1] in bot.commands:
             bot.msg(cmd['chan'], bot.commands[args[1]][1])
+            bot.addHeat(cmd['host'], 1)
     else:
         for c in bot.commands:
             if bot.commands[c][2] == 'admin':
                 if user in bot.vars['admins']:
                     bot.msg(user, c + ': ' + bot.commands[c][1])
+                    bot.addHeat(cmd['host'], 1)
             else:
                 bot.msg(user, c + ': ' + bot.commands[c][1])
+                bot.addHeat(cmd['host'], 1)
                 
 commands['help'] = (help, ".help <command>", 'public')
