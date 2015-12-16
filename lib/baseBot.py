@@ -121,7 +121,7 @@ class baseBot(irc.IRCClient):
         nick = user[0]
         host = user[1].split('@')[1]
         user = user[0].lower()
-        command = msg.split()[0].strip('.')
+        command = msg.split()[0].strip(self.delimiter)
         
         if user in self.stores['ignore']:
             return
@@ -131,14 +131,14 @@ class baseBot(irc.IRCClient):
         else:
             chan = channel
 
-        if not msg.startswith("."):
+        if not msg.startswith(self.delimiter):
             if channel == self.nickname:
-                msg = "." + str(msg)
+                msg = self.delimiter + str(msg)
             else:
                 return
 
 # spam block
-        if msg.startswith("."):
+        if msg.startswith(self.delimiter):
 
             if host in self.heatmap and self.heatmap[host] > 10:
                 if self.heatmap[host] > 20:
@@ -176,23 +176,21 @@ class baseBot(irc.IRCClient):
 class baseBotFactory(protocol.ClientFactory):
 
     def __init__(self, b, masterLogger, botList):
-        self.channels = b['channels']
-        self.nickname = b['nick']
-        self.password = b['password']
-        self.admins = b['admins']
-        self.modules = b['modules']
-        self.ignore = b['ignore']
+        self.b = b
         self.logger = masterLogger
         self.botList = botList
         
     def buildProtocol(self, addr):
         p = baseBot()
         p.factory = self
-        p.channels = self.channels
-        p.nickname = self.nickname
-        p.password = self.password
+        p.channels = self.b['channels']
+        p.nickname = self.b['nick']
+        p.password = self.b['password']
+        p.admins = self.b['admins']
+        p.modules = self.b['modules']
+        p.ignore = self.b['ignore']
+        p.delimiter = self.b['delimiter']
         p.logger = self.logger
-        p.modules = self.modules
         p.lineRate = 0.5
         p.reactor = reactor
         p.botList = self.botList
