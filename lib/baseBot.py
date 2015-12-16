@@ -186,7 +186,6 @@ class baseBotFactory(protocol.ClientFactory):
         p.channels = self.b['channels']
         p.nickname = self.b['nick']
         p.password = self.b['password']
-        p.admins = self.b['admins']
         p.modules = self.b['modules']
         p.ignore = self.b['ignore']
         p.delimiter = self.b['delimiter']
@@ -196,11 +195,11 @@ class baseBotFactory(protocol.ClientFactory):
         p.botList = self.botList
         
         if p.loadVars():
-            for entry in self.admins:
+            for entry in self.b['admins']:
                 if entry not in p.stores['admins']:
                     p.stores['admins'].append(entry)
         
-            for entry in self.ignore:
+            for entry in self.b['ignore']:
                 if entry not in p.stores['ignore']:
                     p.stores['ignore'].append(entry)
         else:
