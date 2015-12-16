@@ -121,7 +121,7 @@ class baseBot(irc.IRCClient):
         nick = user[0]
         host = user[1].split('@')[1]
         user = user[0].lower()
-        command = msg.split()[0].strip(self.cmdSymbol)
+        command = msg.split()[0].strip(self.stores['cmdSymbol'])
         
         if user in self.stores['ignore']:
             return
@@ -131,14 +131,14 @@ class baseBot(irc.IRCClient):
         else:
             chan = channel
 
-        if not msg.startswith(self.cmdSymbol):
+        if not msg.startswith(self.stores['cmdSymbol']):
             if channel == self.nickname:
-                msg = self.cmdSymbol + str(msg)
+                msg = self.stores['cmdSymbol'] + str(msg)
             else:
                 return
 
 # spam block
-        if msg.startswith(self.cmdSymbol):
+        if msg.startswith(self.stores['cmdSymbol']):
 
             if host in self.heatmap and self.heatmap[host] > 10:
                 if self.heatmap[host] > 20:
@@ -188,7 +188,7 @@ class baseBotFactory(protocol.ClientFactory):
         p.password = self.b['password']
         p.modules = self.b['modules']
         p.ignore = self.b['ignore']
-        p.cmdSymbol = self.b['cmdSymbol']
+        p.stores['cmdSymbol'] = self.b['cmdSymbol']
         p.logger = self.logger
         p.lineRate = 0.5
         p.reactor = reactor
