@@ -145,7 +145,6 @@ def help(bot, cmd):
                     commandList = commandList + ' ' + bot.cmdSymbol + c
             else:
                 commandList = commandList + ' ' + bot.cmdSymbol + c
-                bot.msg(user, c + ': ' + bot.commands[c][1])
         bot.msg(user, "Commands:" + commandList + " For syntax try: " + bot.cmdSymbol + "help <command>")
         bot.addHeat(cmd['host'], 1)
                 
