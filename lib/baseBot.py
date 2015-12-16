@@ -203,8 +203,8 @@ class baseBotFactory(protocol.ClientFactory):
                 if entry not in p.stores['ignore']:
                     p.stores['ignore'].append(entry)
         else:
-            p.stores['admins'] = self.admins
-            p.stores['ignore'] = self.ignore
+            p.stores['admins'] = self.b['admins']
+            p.stores['ignore'] = self.b['ignore']
                     
         self.botList.append(p)
         return p
