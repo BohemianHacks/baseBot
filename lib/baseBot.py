@@ -27,7 +27,13 @@ class baseBot(irc.IRCClient):
         self.commands = {}
         self.modules = []
         self.vars = {}
-        
+    
+    def addHeat(self, host, heat):
+        if host in self.heatmap:
+            self.heatmap[host] += heat
+        else:
+            self.heatmap[host] = heat
+    
     def saveVars(self):
         if not os.path.isdir('vars/'):
             os.makedirs('vars/')
