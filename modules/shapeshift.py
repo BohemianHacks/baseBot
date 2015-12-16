@@ -21,6 +21,28 @@ def post(url, vals):
 def get(url):
     return yaml.safe_load(urllib2.urlopen(url).read())
 
+def recent(bot, cmd):
+    args = cmd['args']
+    chan = cmd['chan']
+    user = cmd['user']
+    nick = cmd['nick']
+    key = 'shapeshift_'+user
+    
+    if key in bot.stores:
+        r = bot.stores[key]
+    else:
+        bot.msg(chan, nick + ', no recent transactions.')
+        bot.addHeat(cmd['host'], 1)
+        return
+    
+    bot.msg(user, "Recent Deposit Addresses")
+    bot.addHeat(cmd['host'], 1)
+    for addie in r:
+        bot.msg(user, addie)
+        bot.addHeat(cmd['host'], 1)
+        
+commands['recent'] = (recent, '.recent | List your recent shapeshift.io addresses', 'authed')
+
 def getCoins(bot, cmd):
     args = cmd['args']
     chan = cmd['chan']
@@ -65,8 +87,8 @@ def status(bot, cmd):
     
     if len(args) >= 2:
         url = url + args[1]
-    elif key in bot.vars:
-        url = url + bot.vars[key][0]
+    elif key in bot.stores:
+        url = url + bot.stores[key][0]
     else:
         bot.msg(chan, nick + ':' + 'no recent transactions, please include address')
         return
@@ -111,12 +133,12 @@ def shift(bot, cmd):
         data = post(url, vals)
         if 'deposit' in data:
             key = 'shapeshift_'+user
-            if key in bot.vars:
-                bot.vars[key].insert(0,data['deposit'])
-                if len(bot.vars[key]) > 10:
-                    bot.vars[key].pop()
+            if key in bot.stores:
+                bot.stores[key].insert(0,data['deposit'])
+                if len(bot.stores[key]) > 10:
+                    bot.stores[key].pop()
             else:
-                bot.vars[key] = [data['deposit']]
+                bot.stores[key] = [data['deposit']]
         
             bot.msg(chan, nick + ': '+data['deposit'])
             bot.addHeat(cmd['host'], 1)
