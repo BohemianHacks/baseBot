@@ -142,11 +142,11 @@ def help(bot, cmd):
         for c in bot.commands:
             if bot.commands[c][2] == 'admin':
                 if user in bot.stores['admins']:
-                    commandList = commandList + ' ' + bot.commands[c][1]
+                    commandList = commandList + ' ' + bot.cmdSymbol + c
             else:
-                commandList = commandList + ' ' + bot.commands[c][1]
+                commandList = commandList + ' ' + bot.cmdSymbol + c
                 bot.msg(user, c + ': ' + bot.commands[c][1])
-        bot.msg(user, "Commands:" + commandList + " For syntax try: help <command>")
+        bot.msg(user, "Commands:" + commandList + " For syntax try: " + bot.cmdSymbol + "help <command>")
         bot.addHeat(cmd['host'], 1)
                 
 commands['help'] = (help, ".help <command>", 'public')
