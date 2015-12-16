@@ -33,6 +33,7 @@ def getCoins(bot, cmd):
     for key in data.keys():
         coins = coins + ', ' + key
     bot.msg(user, "Valid coins: " + coins)
+    bot.addHeat(cmd['host'], 1)
 commands['getcoins'] = (getCoins, '.getcoins | List valid shapeshift.io coin symbols', 'public')
 
 def info(bot, cmd):
@@ -49,7 +50,8 @@ def info(bot, cmd):
         res = data['pair'].upper().replace('_','->') + ' Rate:'
         res = res + '%.8f' % data['rate'] + ' Min:%.8f' % data['minimum'] + ' Max:%.8f' % data['limit']
         res = res + ' TX Fee:%.8f' % data['minerFee']
-        bot.msg(chan, res)    
+        bot.msg(chan, res)
+        bot.addHeat(cmd['host'], 1)
 
 commands['mkinfo'] = (info, '.mkinfo <from coin> <to coin> | Get market info for coin pair on shapeshift.io', 'authed')
 
@@ -72,12 +74,16 @@ def status(bot, cmd):
     data = get(url)
     if data['status'] == 'complete':
         bot.msg(chan, nick + ' Done, trxID: ' + data['transaction'])
+        bot.addHeat(cmd['host'], 1)
     elif data['status'] == 'no_deposits':
         bot.msg(chan, nick + ', no deposits yet.')
+        bot.addHeat(cmd['host'], 1)
     elif data['status'] == 'recieved':
         bot.msg(chan, nick + ", coins recieved but still processing.")
+        bot.addHeat(cmd['host'], 1)
     elif data['status'] == 'failed':
         bot.msg(user, nick + ' Failed: ' + data['error'])
+        bot.addHeat(cmd['host'], 1)
         
     
 commands['txstat'] = (status, '.txstat (deposit address) | Check status of shapeshift.io deposit', 'authed')
@@ -113,10 +119,13 @@ def shift(bot, cmd):
                 bot.vars[key] = [data['deposit']]
         
             bot.msg(chan, nick + ': '+data['deposit'])
+            bot.addHeat(cmd['host'], 1)
         else:
             bot.msg(chan, nick + 'Error, please try again later')
+            bot.addHeat(cmd['host'], 1)
     
     else:
         bot.msg(chan, nick + 'Invalid coin symbol.')
+        bot.addHeat(cmd['host'], 1)
           
 commands['shift'] = (shift, '.shift <from coin> <to coin> <withdraw address> (return address) | shapeshift.io exchange', 'authed')
