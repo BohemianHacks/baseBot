@@ -145,8 +145,9 @@ def help(bot, cmd):
                     commandList = commandList + ' ' + bot.stores['cmdSymbol'] + c
             else:
                 commandList = commandList + ' ' + bot.stores['cmdSymbol'] + c
+        bot.msg(user, "https://github.com/BohemianHacks/baseBot")
         bot.msg(user, "Commands:" + commandList)
         bot.msg(user, "For detailed help try: " + bot.stores['cmdSymbol'] + "help <command>")
-        bot.addHeat(cmd['host'], 1)
+        bot.addHeat(cmd['host'], 3)
                 
 commands['help'] = (help, ".help <command>", 'public')
