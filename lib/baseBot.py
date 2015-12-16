@@ -188,7 +188,6 @@ class baseBotFactory(protocol.ClientFactory):
         p.password = self.b['password']
         p.modules = self.b['modules']
         p.ignore = self.b['ignore']
-        p.stores['cmdSymbol'] = self.b['cmdSymbol']
         p.logger = self.logger
         p.lineRate = 0.5
         p.reactor = reactor
@@ -205,7 +204,8 @@ class baseBotFactory(protocol.ClientFactory):
         else:
             p.stores['admins'] = self.b['admins']
             p.stores['ignore'] = self.b['ignore']
-                    
+        
+        p.stores['cmdSymbol'] = self.b['cmdSymbol']
         self.botList.append(p)
         return p
 
