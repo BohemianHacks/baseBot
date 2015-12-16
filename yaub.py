@@ -22,10 +22,8 @@ def sync():
         b.saveVars()
         #lower spam counts
         for host in b.heatmap:
-            if heatmap[host] > 0:
-                heatmap[host] -= 1
-            if host in ignoreHosts and heatmap[host] < 9:
-                ignoreHosts.pop(host)
+            if b.heatmap[host] > 0:
+                b.heatmap[host] -= 1
 
     # write log to disk
     masterLogger.write()
