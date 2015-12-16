@@ -26,7 +26,7 @@ class baseBot(irc.IRCClient):
         self.cmdQueue = []
         self.commands = {}
         self.modules = []
-        self.vars = {}
+        self.stores = {}
     
     def addHeat(self, host, heat):
         if host in self.heatmap:
@@ -38,12 +38,12 @@ class baseBot(irc.IRCClient):
         if not os.path.isdir('vars/'):
             os.makedirs('vars/')
         with open('vars/'+self.nickname+'.json', "w") as f:
-            json.dump(self.vars,f)
+            json.dump(self.stores,f)
     
     def loadVars(self):
         if os.path.exists('vars/'+self.nickname+'.json'):
             with open('vars/'+self.nickname+'.json', "r") as f:
-                self.vars = yaml.safe_load(f)
+                self.stores = yaml.safe_load(f)
             return True
         else:
             return False
@@ -58,7 +58,7 @@ class baseBot(irc.IRCClient):
                         if acc[2] == "3":
                             if cmd['cmd'] in self.commands:
                                 if cmd['type'] == 'admin':
-                                    if cmd['user'] in self.vars['admins']:
+                                    if cmd['user'] in self.stores['admins']:
                                         self.commands[cmd['cmd']][0](self, cmd)
                                 else:
                                     self.commands[cmd['cmd']][0](self, cmd)
@@ -123,7 +123,7 @@ class baseBot(irc.IRCClient):
         user = user[0].lower()
         command = msg.split()[0].strip('.')
         
-        if user in self.vars['ignore']:
+        if user in self.stores['ignore']:
             return
 
         if channel == self.nickname:
@@ -199,15 +199,15 @@ class baseBotFactory(protocol.ClientFactory):
         
         if p.loadVars():
             for entry in self.admins:
-                if entry not in p.vars['admins']:
-                    p.vars['admins'].append(entry)
+                if entry not in p.stores['admins']:
+                    p.stores['admins'].append(entry)
         
             for entry in self.ignore:
-                if entry not in p.vars['ignore']:
-                    p.vars['ignore'].append(entry)
+                if entry not in p.stores['ignore']:
+                    p.stores['ignore'].append(entry)
         else:
-            p.vars['admins'] = self.admins
-            p.vars['ignore'] = self.ignore
+            p.stores['admins'] = self.admins
+            p.stores['ignore'] = self.ignore
                     
         self.botList.append(p)
         return p
