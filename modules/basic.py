@@ -146,7 +146,7 @@ def help(bot, cmd):
             else:
                 commandList = commandList + ' ' + bot.commands[c][1]
                 bot.msg(user, c + ': ' + bot.commands[c][1])
-        bot.msg(user, "Commands:" + commandList + " For syntax try 'help <command>'")
+        bot.msg(user, "Commands:" + commandList + " For syntax try: help <command>")
         bot.addHeat(cmd['host'], 1)
                 
 commands['help'] = (help, ".help <command>", 'public')
