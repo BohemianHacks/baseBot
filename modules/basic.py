@@ -35,8 +35,8 @@ commands['list'] = (listMods, '.list', 'public')
 
 def get(bot, cmd):
     args = cmd['args']
-    if args[1] in bot.vars:
-        bot.msg(cmd['chan'], str(bot.vars[args[1]]))
+    if args[1] in bot.stores:
+        bot.msg(cmd['chan'], str(bot.stores[args[1]]))
         bot.addHeat(cmd['host'], 1)
     else:
         bot.msg(cmd['chan'], "Variable '"+args[1]+"' not found.")
@@ -47,10 +47,10 @@ commands['get'] = (get, '.get <variable>', 'admin')
 def setVar(bot, cmd):
     args = cmd['args']
     val = None
-    if args[1] in bot.vars:
+    if args[1] in bot.stores:
         if len(args) > 2:
-            if type(bot.vars[args[1]]) == type([]) and '|' not in args[2] and '#' not in args[2]:
-                bot.vars[args[1]].append(args[2])
+            if type(bot.stores[args[1]]) == type([]) and '|' not in args[2] and '#' not in args[2]:
+                bot.stores[args[1]].append(args[2])
                 bot.msg(cmd['chan'], "Value added.")
                 bot.addHeat(cmd['host'], 1)
                 return
@@ -64,11 +64,11 @@ def setVar(bot, cmd):
             val = args[2]
             for ii in range(len(args)-3):
                 val = val + ' ' + args[ii+3]
-        bot.vars[args[1]] = val
+        bot.stores[args[1]] = val
         bot.msg(cmd['chan'], "Value set.")
         bot.addHeat(cmd['host'], 1)
     else:
-        del bot.vars[args[1]]
+        del bot.stores[args[1]]
         bot.msg(cmd['chan'], "Value erased.")
         bot.addHeat(cmd['host'], 1)
         
@@ -140,7 +140,7 @@ def help(bot, cmd):
     else:
         for c in bot.commands:
             if bot.commands[c][2] == 'admin':
-                if user in bot.vars['admins']:
+                if user in bot.stores['admins']:
                     bot.msg(user, c + ': ' + bot.commands[c][1])
                     bot.addHeat(cmd['host'], 1)
             else:
