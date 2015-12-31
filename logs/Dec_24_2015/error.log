@@ -1,2 +1,0 @@
-02:12:15|Yaub: Error in authed command:{'cmd': 'mkinfo', 'args': ['.mkinfo', 'btc', 'doge'], 'chan': 'BohemianHacks', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-wxvopeflkuyxsnxn', 'user': 'bohemianhacks', 'type': 'authed'}:float argument required, not str
-02:11:59|Yaub: Error in authed command:{'cmd': 'mkinfo', 'args': ['.mkinfo', 'btc', 'doge'], 'chan': 'BohemianHacks', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-wxvopeflkuyxsnxn', 'user': 'bohemianhacks', 'type': 'authed'}:float argument required, not str
