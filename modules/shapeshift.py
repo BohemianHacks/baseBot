@@ -19,7 +19,8 @@ def post(url, vals):
     return yaml.safe_load(urllib2.urlopen(req).read())
 
 def get(url):
-    return yaml.safe_load(urllib2.urlopen(url).read())
+    data = urllib2.urlopen(url, timeout=1).read()
+    return yaml.safe_load(data)
 
 def recent(bot, cmd):
     args = cmd['args']
@@ -70,8 +71,8 @@ def info(bot, cmd):
         pair = args[1] + '_' + args[2]
         data = get(url+pair)
         res = data['pair'].upper().replace('_','->') + ' Rate:'
-        res = res + '%.8f' % data['rate'] + ' Min:%.8f' % data['minimum'] + ' Max:%.8f' % data['limit']
-        res = res + ' TX Fee:%.8f' % data['minerFee']
+        res = res + '%.8f' % float(data['rate']) + ' Min:%.8f' % float(data['minimum']) + ' Max:%.8f' % float(data['limit'])
+        res = res + ' TX Fee:%.8f' % float(data['minerFee'])
         bot.msg(chan, res)
         bot.addHeat(cmd['host'], 1)
 

@@ -1,1 +1,1 @@
-{"logLocation": "logs/", "bots": [{"cmdSymbol": ".", "channels": ["#yaub", "#dogecoin", "#doge-coin"], "modules": ["basic", "shapeshift"], "server": "irc.freenode.net", "ignore": ["[2]"], "nick": "Yaub", "admins": ["bohemianhacks"], "password": "", "port": 6667}]}
+{"logLocation": "logs/", "bots": [{"cmdSymbol": ".", "channels": ["#yaub", "#dogecoin", "#doge-coin"], "modules": ["basic", "shapeshift"], "server": "irc.freenode.net", "ignore": ["[2]"], "nick": "Yaub", "admins": ["bohemianhacks"], "password": "password", "port": 6667}]}

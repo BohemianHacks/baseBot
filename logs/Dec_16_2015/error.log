@@ -1,0 +1,10 @@
+06:36:55|Yaub: Error in authed command:{'cmd': 'shift', 'args': ['!shift', 'doge', 'btc'], 'chan': 'SammoSideKick', 'nick': 'SammoSideKick', 'host': 'unaffiliated/sammosidekick', 'user': 'sammosidekick', 'type': 'authed'}:list index out of range
+06:09:57|Yaub: Error in authed command:{'cmd': 'mkinfo', 'args': ['!mkinfo', 'btc', 'btc'], 'chan': '#dogecoin', 'nick': 'IIIIIHIIIII', 'host': 'unaffiliated/iiiiihiiiii', 'user': 'iiiiihiiiii', 'type': 'authed'}:'pair'
+05:49:26|Yaub: Error in authed command:{'cmd': 'shift', 'args': ['!shift'], 'chan': '#dogecoin', 'nick': 'RaptorJesus', 'host': 'unaffiliated/raptorjesus', 'user': 'raptorjesus', 'type': 'authed'}:list index out of range
+03:40:59|Yaub:Bill48105:Error running command:!help:baseBot instance has no attribute 'cmdSymbol'
+03:39:24|Yaub:BohemianHacks:Error running command:!help:baseBot instance has no attribute 'cmdSymbol'
+03:39:13|Yaub:BohemianHacks:Error running command:!help:baseBot instance has no attribute 'cmdSymbol'
+03:28:40|Yaub: Error in authed command:{'cmd': 'reload', 'args': ['.reload', 'basic'], 'chan': 'BohemianHacks', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-ajgnbceucfvkyfbv', 'user': 'bohemianhacks', 'type': 'admin'}:invalid syntax (basic.py, line 149)
+02:58:21|Yaub: Error in authed command:{'cmd': 'load', 'args': ['.load', 'shapshift'], 'chan': '#doge-coin', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-ajgnbceucfvkyfbv', 'user': 'bohemianhacks', 'type': 'admin'}:No module named shapshift
+02:42:24|Yaub: Error in authed command:{'cmd': 'mkinfo', 'args': ['.mkinfo', 'usdt', 'btc'], 'chan': 'BohemianHacks', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-ajgnbceucfvkyfbv', 'user': 'bohemianhacks', 'type': 'authed'}:'pair'
+02:41:02|Yaub: Error in authed command:{'cmd': 'mkinfo', 'args': ['.mkinfo', 'usdt', 'btc'], 'chan': '#dogecoin', 'nick': 'BohemianHacks', 'host': 'gateway/shell/insomnia247/x-ajgnbceucfvkyfbv', 'user': 'bohemianhacks', 'type': 'authed'}:'pair'
